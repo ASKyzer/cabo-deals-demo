@@ -23,7 +23,7 @@ export default {
   components: {
     Card
   },
-  props: cardTypes
+  props: ["tours", "col"]
 };
 </script>
 

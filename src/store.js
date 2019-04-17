@@ -8,12 +8,18 @@ Vue.use(Vuex, axios);
 export default new Vuex.Store({
   state: {
     tours: [],
-    filteredTours: [],
     filteredPrices: []
   },
   getters: {
     allTours: state => state.tours,
-    filteredTours: state => state.filteredTours,
+    filteredTours: (state) => category => {
+      return state.tours.filter(tour => {
+        let catIndex = tour.taxonomy.findIndex(cat => {
+          return cat === category;
+        })
+        return catIndex !== -1
+      });
+    },
     filteredPrices: state => state.filteredPrices
   },
   actions: {
