@@ -17,13 +17,18 @@ export default new Vuex.Store({
     filteredPrices: state => state.filteredPrices
   },
   actions: {
-    async fetchTours({ commit }) {
+    async fetchTours({
+      commit
+    }) {
       const response = await axios.get("./data.json");
 
       // commit our mutation to change the state
       commit("setTours", response.data);
     },
-    filterTours({ commit, state }, category) {
+    filterTours({
+      commit,
+      state
+    }, category) {
       const filtered = state.tours.filter(tour => {
         // return tour.taxonomy[0] === category;
         let catIndex = tour.taxonomy.findIndex(cat => {
@@ -34,7 +39,10 @@ export default new Vuex.Store({
       console.log(filtered)
       commit("setFiltered", filtered);
     },
-    filterPrice({ commit, state }, maxPrice) {
+    filterPrice({
+      commit,
+      state
+    }, maxPrice) {
       const filtered = state.tours.filter(tour => {
         return tour.price.adults < maxPrice
       })
@@ -43,8 +51,14 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    setTours: (state, tours) => {state.tours = tours},
-    setFiltered: (state, tours) => {state.filteredTours = tours},
-    setPriceFilter: (state, tours) => {state.filteredPrices = tours}
+    setTours: (state, tours) => {
+      state.tours = tours
+    },
+    setFiltered: (state, tours) => {
+      state.filteredTours = tours
+    },
+    setPriceFilter: (state, tours) => {
+      state.filteredPrices = tours
+    }
   }
 });

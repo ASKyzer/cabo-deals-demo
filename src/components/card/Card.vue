@@ -1,63 +1,80 @@
 <template>
   <div class="card">
-        <div class="card-image">
-          <figure class="image is-4by3">
-            <img :src="tour.image" :alt="tour.name">
-          </figure>
-        </div>
-        <div class="card-content">
-          <p class="title is-4">{{tour.name}}</p>
-          <p class="subtitle is-6">by {{tour.company}}</p>
-        </div>
-        <div class="content">
-          {{tour.description}}
-        </div>
-        <Taxonomy :category="tour.taxonomy" />
-        <TourSchedules :tour="tour" />
-        <IncludedInTour :tour="tour" />
-        <!-- sep to own compo and loop through array -->
-        <div class="content">
-          <span v-if="tour.price.adults">Adult Price: ${{tour.price.adults}}</span>
-          <span v-if="tour.price.kids">  |  Kids Price: ${{tour.price.kids}}</span>
-        </div>
-        <div class="content">Tour Duration: {{tour.duration | convertTime}}</div>
-      </div>
+    <SubCard :name="name" :image="image" :company="company" :description="description"/>
+    <Taxonomy :categories="taxonomy"/>
+    <TourSchedules :schedules="schedules"/>
+    <IncludedInTour :includes="included"/>
+    <Restrictions :restrictions="restrictions"/>
+    <TourPrices :adults="adults" :kids="kids"/>
+    <div class="content">Tour Duration: {{ duration | convertTime }}</div>
+  </div>
 </template>
 
 <script>
-import TourSchedules from './TourSchedules.vue' 
-import IncludedInTour from './IncludedInTour.vue' 
-import Taxonomy from './Taxonomy.vue' 
+import Restrictions from "./Restrictions.vue";
+import SubCard from "./SubCard.vue";
+import TourPrices from "./TourPrices.vue";
+import TourSchedules from "./TourSchedules.vue";
+import IncludedInTour from "./IncludedInTour.vue";
+import Taxonomy from "./Taxonomy.vue";
 
 export const convertTime = minutes => {
   let h = Math.floor(minutes / 60);
   let m = minutes % 60;
-  h = h < 10 ? '0' + h : h;
-  m = m < 10 ? '0' + m : m;
-  return h + ':' + m;
-}
+  h = h < 10 ? "0" + h : h;
+  m = m < 10 ? "0" + m : m;
+  return h + ":" + m;
+};
 
-// deconstruct tour info before passing with set default values a run a check 
+// deconstruct tour info before passing with set default values a run a check
+// const { categories, schedules, included, prices } = this.tour
 
 export default {
-  name: 'Card',
+  name: "Card",
   components: {
-    Taxonomy,  
-    IncludedInTour,  
-    TourSchedules
+    Taxonomy,
+    IncludedInTour,
+    TourSchedules,
+    TourPrices,
+    SubCard,
+    Restrictions
   },
-  props: ['tour'],
+  data() {
+    const {
+      name,
+      company,
+      taxonomy,
+      included,
+      restrictions,
+      price: { adults, kids },
+      schedules,
+      duration,
+      description,
+      image
+    } = this.tour;
+    return {
+      name,
+      company,
+      taxonomy,
+      included,
+      restrictions,
+      adults,
+      kids,
+      schedules,
+      duration,
+      description,
+      image
+    };
+  },
+  props: ["tour"],
   filters: {
     convertTime
   }
-}
+};
 </script>
 
 <style scoped>
 .card {
   height: 100%;
-}
-.card-image {
-  background-color: #000;
 }
 </style>

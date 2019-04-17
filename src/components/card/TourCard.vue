@@ -7,26 +7,25 @@
 </template>
 
 <script>
-import Card from './Card.vue' 
+import Card from "./Card.vue";
 
-const cardTypes =  {
-    tours: {
-      type: Array
-    },
-    col: {
-      type: String
-    }
+const cardTypes = {
+  tours: {
+    type: Array
+  },
+  col: {
+    type: String
   }
+};
 
 export default {
   name: "TourCard",
   components: {
     Card
   },
-  props: cardTypes,
-}
+  props: cardTypes
+};
 </script>
 
 <style scoped>
-
 </style>
